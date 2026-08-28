@@ -1,5 +1,5 @@
 import "dotenv/config";
-
+import cors from "cors";
 import express from "express";
 import path from "path";
 import fs from "fs";
@@ -16,6 +16,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+app.use(cors())
 
 // =====================================================
 // MYSQL CONNECTION

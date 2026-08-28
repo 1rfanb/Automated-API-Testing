@@ -181,7 +181,7 @@ async function uploadAPI() {
     try {
 
         const response =
-            await fetch("/api/upload", {
+            await fetch("http://localhost:5000/api/upload", {
                 method: "POST",
                 body: formData
             });
@@ -884,7 +884,7 @@ async function getCurrentRunAPIs() {
     }
 
     const url =
-        `/api/apis?testRunId=${encodeURIComponent(
+        `http://localhost:5000/api/apis?testRunId=${encodeURIComponent(
             currentTestRunId
         )}`;
 
@@ -1112,7 +1112,7 @@ const url =
 
             const testResponse =
                 await fetch(
-                    "/api/generate-tests",
+                    "http://localhost:5000/api/generate-tests",
                     {
                         method: "POST",
                         headers: {
@@ -1160,7 +1160,7 @@ const url =
 
         const response =
             await fetch(
-                "/api/run-test",
+                "http://localhost:5000/api/run-test",
                 {
                     method: "POST",
 
@@ -1539,7 +1539,7 @@ async function generateTestCases() {
 
             const testResponse =
                 await fetch(
-                    "/api/generate-tests",
+                    "http://localhost:5000/api/generate-tests",
                     {
                         method: "POST",
 
@@ -1864,7 +1864,7 @@ async function runTests() {
 
                     const testResponse =
                         await fetch(
-                            "/api/generate-tests",
+                            "http://localhost:5000/api/generate-tests",
                             {
                                 method: "POST",
 
@@ -1914,7 +1914,7 @@ async function runTests() {
 
                 const response =
                     await fetch(
-                        "/api/run-test",
+                        "http://localhost:5000/api/run-test",
                         {
                             method: "POST",
 
@@ -3134,7 +3134,7 @@ async function updateDashboardStats() {
 
         const response =
             await fetch(
-                "/api/dashboard-stats",
+                "http://localhost:5000/api/dashboard-stats",
                 {
                     cache:
                         "no-store"
@@ -3302,7 +3302,7 @@ async function loadReport() {
 
         const response =
             await fetch(
-                `/api/report?testRunId=${encodeURIComponent(
+                `http://localhost:5000/api/report?testRunId=${encodeURIComponent(
                     currentTestRunId
                 )}`,
                 {
@@ -3895,7 +3895,7 @@ async function loadTestHistory() {
 
         const response =
             await fetch(
-                "/api/history",
+                "http://localhost:5000/api/history",
                 {
                     cache:
                         "no-store"
@@ -4210,7 +4210,7 @@ async function deleteHistory(
 
         const response =
             await fetch(
-                `/api/history/${id}`,
+                `http://localhost:5000/api/history/${id}`,
                 {
                     method:
                         "DELETE"
@@ -4272,7 +4272,7 @@ async function deleteAllHistory() {
 
         const response =
             await fetch(
-                "/api/history",
+                "http://localhost:5000/api/history",
                 {
                     method:
                         "DELETE"
