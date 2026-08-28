@@ -1,0 +1,451 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Combined Test API",
+    "description": "OpenAPI specification for testing the Automatic API Testing Platform. Includes posts and e-commerce orders APIs with path and query parameters.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://jsonplaceholder.typicode.com",
+      "description": "JSONPlaceholder API"
+    },
+    {
+      "url": "https://api.example.com",
+      "description": "E-Commerce Management API placeholder"
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "Get all posts",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": false,
+            "description": "Filter posts by user ID",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of posts to return",
+            "schema": {
+              "type": "integer",
+              "example": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Posts retrieved successfully"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Create a post",
+        "parameters": [
+          {
+            "name": "notify",
+            "in": "query",
+            "required": false,
+            "description": "Send notification after creating the post",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "body",
+                  "userId"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "My Test Post"
+                  },
+                  "body": {
+                    "type": "string",
+                    "example": "This is a test post."
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Post created successfully"
+          },
+          "400": {
+            "description": "Invalid post data"
+          }
+        }
+      }
+    },
+
+    "/posts/{id}": {
+      "get": {
+        "summary": "Get a single post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the post",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "includeComments",
+            "in": "query",
+            "required": false,
+            "description": "Include comments for the post",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post retrieved successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+
+      "put": {
+        "summary": "Update a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the post to update",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "notify",
+            "in": "query",
+            "required": false,
+            "description": "Send notification after update",
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "title",
+                  "body",
+                  "userId"
+                ],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Updated Post"
+                  },
+                  "body": {
+                    "type": "string",
+                    "example": "Updated content."
+                  },
+                  "userId": {
+                    "type": "integer",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post updated successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+
+      "patch": {
+        "summary": "Partially update a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the post to update",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "notify",
+            "in": "query",
+            "required": false,
+            "description": "Send notification after update",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "example": "Updated Title"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Post partially updated successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Delete a post",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the post to delete",
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "force",
+            "in": "query",
+            "required": false,
+            "description": "Force deletion of the post",
+            "schema": {
+              "type": "boolean",
+              "example": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Post deleted successfully"
+          },
+          "404": {
+            "description": "Post not found"
+          }
+        }
+      }
+    },
+
+    "/orders": {
+      "get": {
+        "summary": "List all orders",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "Filter orders by status",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "processing",
+                "completed",
+                "cancelled"
+              ],
+              "example": "completed"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Maximum number of orders to return",
+            "schema": {
+              "type": "integer",
+              "example": 10,
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "required": false,
+            "description": "Field used to sort orders",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "createdAt",
+                "updatedAt",
+                "totalAmount"
+              ],
+              "example": "createdAt"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A successful list of orders"
+          },
+          "401": {
+            "description": "Unauthorized - Invalid or missing API key"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+
+      "post": {
+        "summary": "Create a new order",
+        "parameters": [
+          {
+            "name": "priority",
+            "in": "query",
+            "required": false,
+            "description": "Set order priority",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "normal",
+                "high"
+              ],
+              "example": "high"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "customerId",
+                  "productId",
+                  "quantity"
+                ],
+                "properties": {
+                  "customerId": {
+                    "type": "integer",
+                    "example": 101
+                  },
+                  "productId": {
+                    "type": "integer",
+                    "example": 501
+                  },
+                  "quantity": {
+                    "type": "integer",
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Order created successfully"
+          },
+          "400": {
+            "description": "Bad Request - Missing required payload fields"
+          },
+          "401": {
+            "description": "Unauthorized - Authentication failed"
+          }
+        }
+      }
+    },
+
+    "/orders/{orderId}": {
+      "get": {
+        "summary": "Get order details by ID",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "required": true,
+            "description": "Unique ID of the order",
+            "schema": {
+              "type": "integer",
+              "example": 1001
+            }
+          },
+          {
+            "name": "includeItems",
+            "in": "query",
+            "required": false,
+            "description": "Include order items in the response",
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order details retrieved successfully"
+          },
+          "400": {
+            "description": "Invalid ID format supplied"
+          },
+          "404": {
+            "description": "No order exists with that ID"
+          }
+        }
+      }
+    }
+  }
+}

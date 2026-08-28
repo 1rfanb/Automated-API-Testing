@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Automatic API Testing Platform for OpenAPI and Swagger API testing"
+    >
+
+    <title>Automatic API Testing Platform</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<aside
+    class="sidebar"
+    id="sidebar"
+>
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            ⚡
+        </div>
+
+        <div>
+
+            <h2>
+                API Tester
+            </h2>
+
+            <span>
+                API Testing Platform
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a
+            href="#dashboard"
+            class="sidebar-link active"
+        >
+            <span class="sidebar-icon">📊</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="#apis"
+            class="sidebar-link"
+        >
+            <span class="sidebar-icon">🔗</span>
+            <span>APIs</span>
+        </a>
+
+
+        <a
+            href="#testcases-section"
+            class="sidebar-link"
+        >
+            <span class="sidebar-icon">🧪</span>
+            <span>Test Cases</span>
+        </a>
+
+
+        <a
+            href="#results-section"
+            class="sidebar-link"
+        >
+            <span class="sidebar-icon">📈</span>
+            <span>Results</span>
+        </a>
+
+
+        <a
+            href="#history"
+            class="sidebar-link"
+        >
+            <span class="sidebar-icon">📜</span>
+            <span>History</span>
+        </a>
+
+
+        <a
+            href="#reports"
+            class="sidebar-link"
+        >
+            <span class="sidebar-icon">📋</span>
+            <span>Reports</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+
+        <div class="sidebar-status">
+
+            <span class="status-dot"></span>
+
+            Backend Connected
+
+        </div>
+
+
+        <div class="sidebar-tech">
+
+            Node.js • Express • MySQL
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================================
+     MOBILE SIDEBAR OVERLAY
+===================================================== -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+    onclick="toggleSidebar()"
+></div>
+
+
+<!-- =====================================================
+     MOBILE HEADER
+===================================================== -->
+
+<div class="mobile-header">
+
+    <button
+        id="menuBtn"
+        class="menu-btn"
+        onclick="toggleSidebar()"
+        aria-label="Open navigation menu"
+    >
+        ☰
+    </button>
+
+
+    <div class="mobile-title">
+        ⚡ API Tester
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     MAIN CONTENT
+===================================================== -->
+
+<main id="dashboard">
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero">
+
+    <div class="hero-badge">
+        AUTOMATED API TESTING
+    </div>
+
+
+    <h2>
+        Automatic API Testing Platform
+    </h2>
+
+
+    <p>
+        Upload your OpenAPI or Swagger specification
+        and automatically generate, execute and validate
+        API tests.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     DASHBOARD STATISTICS
+===================================================== -->
+
+<section class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            📥
+        </div>
+
+        <div class="stat-title">
+            APIs Imported
+        </div>
+
+        <div
+            id="apiCount"
+            class="stat-number"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🔗
+        </div>
+
+        <div class="stat-title">
+            Endpoints
+        </div>
+
+        <div
+            id="endpointCount"
+            class="stat-number"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            🧪
+        </div>
+
+        <div class="stat-title">
+            Test Cases
+        </div>
+
+        <div
+            id="testCount"
+            class="stat-number"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card pass-card">
+
+        <div class="stat-icon">
+            ✅
+        </div>
+
+        <div class="stat-title">
+            Passed
+        </div>
+
+        <div
+            id="passedCount"
+            class="stat-number"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card fail-card">
+
+        <div class="stat-icon">
+            ❌
+        </div>
+
+        <div class="stat-title">
+            Failed
+        </div>
+
+        <div
+            id="failedCount"
+            class="stat-number"
+        >
+            0
+        </div>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-icon">
+            ⚡
+        </div>
+
+        <div class="stat-title">
+            Avg Response Time
+        </div>
+
+        <div
+            id="averageResponseTime"
+            class="stat-number"
+        >
+            0 ms
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     API SPECIFICATION UPLOAD
+===================================================== -->
+
+<section class="card upload-card">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                API Specification
+            </h2>
+
+            <p class="description">
+                Upload your OpenAPI or Swagger
+                JSON/YAML specification.
+            </p>
+
+        </div>
+
+        <span class="badge">
+            UPLOAD
+        </span>
+
+    </div>
+
+
+    <div class="upload-box">
+
+        <div class="upload-icon">
+            📄
+        </div>
+
+
+        <h3>
+            Upload API Specification
+        </h3>
+
+
+        <p>
+            Supported formats:
+            JSON, YAML and YML
+        </p>
+
+
+        <input
+            type="file"
+            id="apifile"
+            accept=".json,.yaml,.yml"
+        >
+
+
+        <br>
+
+
+        <button
+            type="button"
+            onclick="uploadAPI()"
+            class="primary-btn"
+        >
+            Upload API
+        </button>
+
+
+        <p
+            id="uploadstatus"
+            class="status-message"
+            aria-live="polite"
+        ></p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     DETECTED ENDPOINTS
+===================================================== -->
+
+<section class="card">
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Detected API Endpoints
+            </h2>
+
+            <p class="description">
+                Endpoints detected from your
+                API specification.
+            </p>
+
+        </div>
+
+        <span class="badge">
+            API
+        </span>
+
+    </div>
+
+
+    <div
+        id="endpointlist"
+        class="empty-state"
+    >
+
+        <div class="empty-icon">
+            🔗
+        </div>
+
+        <h3>
+            No endpoints yet
+        </h3>
+
+        <p>
+            Upload an API specification to
+            detect endpoints.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TEST CASES
+===================================================== -->
+
+<section
+    id="testcases-section"
+    class="card"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Generated Test Cases
+            </h2>
+
+            <p class="description">
+                Automatically generated tests
+                for detected endpoints.
+            </p>
+
+        </div>
+
+
+        <div class="history-actions">
+
+            <span class="badge">
+                TESTS
+            </span>
+
+
+            <button
+                type="button"
+                id="testCasesToggleBtn"
+                class="data-toggle-btn show-data-btn"
+                onclick="toggleData('testCasesData', this)"
+            >
+                👁️ Show Data
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="testCasesData"
+        class="data-content"
+    >
+
+        <div
+            id="testcases"
+            class="empty-state"
+        >
+
+            <div class="empty-icon">
+                🧪
+            </div>
+
+            <h3>
+                No test cases generated
+            </h3>
+
+            <p>
+                Upload an API and generate
+                test cases.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        id="generateTestsBtn"
+        onclick="generateTestCases()"
+        class="primary-btn"
+    >
+        🧪 Generate Test Cases
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     TEST RESULTS
+===================================================== -->
+
+<section
+    id="results-section"
+    class="card"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Test Results
+            </h2>
+
+            <p class="description">
+                Results from executed API tests.
+            </p>
+
+        </div>
+
+
+        <div class="history-actions">
+
+            <span class="badge">
+                RESULTS
+            </span>
+
+
+            <button
+                type="button"
+                id="testResultsToggleBtn"
+                class="data-toggle-btn show-data-btn"
+                onclick="toggleData('testResultsData', this)"
+            >
+                👁️ Show Data
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="testResultsData"
+        class="data-content"
+    >
+
+        <div
+            id="testresults"
+            class="empty-state"
+        >
+
+            <div class="empty-icon">
+                📊
+            </div>
+
+            <h3>
+                No test results
+            </h3>
+
+            <p>
+                Execute your generated test cases
+                to see results.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        onclick="runTests()"
+        class="success-btn"
+    >
+        ▶ Execute Tests
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     IMPORTED APIS / API MANAGEMENT
+===================================================== -->
+
+<section
+    id="apis"
+    class="dashboard-section api-management-section"
+>
+
+
+    <!-- API MANAGEMENT HEADER -->
+
+    <div class="section-header api-management-header">
+
+        <div class="section-title-area">
+
+            <div class="section-icon">
+                🗂️
+            </div>
+
+            <div>
+
+                <h2>
+                    Imported APIs
+                </h2>
+
+                <p>
+                    Manage and explore your imported API endpoints
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="api-management-actions">
+
+            <div class="api-count-box">
+
+                <!--
+                    IMPORTANT:
+                    Do NOT use id="apiCount" here.
+                    apiCount is already used in dashboard stats.
+                -->
+
+                <span
+                    class="api-count-value"
+                    id="importedApiCount"
+                >
+                    0
+                </span>
+
+                <small>
+                    APIs
+                </small>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="importedAPIsToggleBtn"
+                class="data-toggle-btn show-data-btn"
+                onclick="toggleData('importedAPIsData', this)"
+            >
+                👁️ Show Data
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         IMPORTED API DATA
+    ================================================== -->
+
+    <div
+        id="importedAPIsData"
+        class="data-content"
+    >
+
+
+        <!-- API MANAGEMENT TOOLBAR -->
+
+        <div class="api-management-toolbar">
+
+
+            <div class="api-search-box">
+
+                <span class="search-icon">
+                    🔍
+                </span>
+
+
+                <input
+                    type="text"
+                    id="apiSearch"
+                    placeholder="Search API name or endpoint..."
+                    oninput="filterImportedAPIs()"
+                >
+
+            </div>
+
+
+            <div class="api-filter-box">
+
+                <select
+                    id="apiMethodFilter"
+                    onchange="filterImportedAPIs()"
+                >
+
+                    <option value="ALL">
+                        All Methods
+                    </option>
+
+                    <option value="GET">
+                        GET
+                    </option>
+
+                    <option value="POST">
+                        POST
+                    </option>
+
+                    <option value="PUT">
+                        PUT
+                    </option>
+
+                    <option value="PATCH">
+                        PATCH
+                    </option>
+
+                    <option value="DELETE">
+                        DELETE
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- API TABLE -->
+
+        <div
+            id="apilist"
+            class="api-management-container"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🗄️
+                </div>
+
+                <h3>
+                    No APIs imported
+                </h3>
+
+                <p>
+                    Uploaded APIs will appear here.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TEST HISTORY
+===================================================== -->
+
+<section
+    id="history"
+    class="card history-card"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Test History
+            </h2>
+
+            <p class="description">
+                Previous API test executions
+                stored here.
+            </p>
+
+        </div>
+
+
+        <div class="history-actions">
+
+            <span class="badge">
+                HISTORY
+            </span>
+
+
+            <button
+                type="button"
+                id="historyToggleBtn"
+                class="data-toggle-btn show-data-btn"
+                onclick="toggleData('historyData', this)"
+            >
+                👁️ Show Data
+            </button>
+
+
+            <button
+                type="button"
+                onclick="deleteAllHistory()"
+                class="delete-all-btn"
+            >
+                🧹 Delete All
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="historyData"
+        class="data-content"
+    >
+
+        <div
+            id="historyList"
+            class="history-container"
+        >
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    📜
+                </div>
+
+                <h3>
+                    No test history
+                </h3>
+
+                <p>
+                    Execute API tests to create
+                    test history.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     TEST REPORT
+===================================================== -->
+
+<section
+    id="reports"
+    class="card"
+>
+
+    <div class="section-header">
+
+        <div>
+
+            <h2>
+                Test Report
+            </h2>
+
+            <p class="description">
+                Overall summary of API test execution
+                and test performance.
+            </p>
+
+        </div>
+
+        <span class="badge">
+            REPORT
+        </span>
+
+    </div>
+
+
+    <!-- REPORT EMPTY STATE -->
+
+    <div
+        id="reportEmpty"
+        class="empty-state"
+    >
+
+        <div class="empty-icon">
+            📋
+        </div>
+
+        <h3>
+            No report available
+        </h3>
+
+        <p>
+            Execute API tests to generate
+            the test report.
+        </p>
+
+        <button
+            type="button"
+            onclick="loadReport()"
+            class="primary-btn"
+        >
+            📋 Generate Report
+        </button>
+        
+
+    </div>
+
+
+    <!-- REPORT CONTENT -->
+
+    <div
+        id="reportContent"
+        class="report-content hidden"
+    >
+
+
+        <!-- REPORT SUMMARY -->
+
+        <div class="report-summary">
+
+
+            <div class="report-box">
+
+                <span>
+                    Total Tests
+                </span>
+
+                <strong id="reportTotal">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="report-box report-pass">
+
+                <span>
+                    Passed
+                </span>
+
+                <strong id="reportPassed">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="report-box report-fail">
+
+                <span>
+                    Failed
+                </span>
+
+                <strong id="reportFailed">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="report-box">
+
+                <span>
+                    Success Rate
+                </span>
+
+                <strong id="reportRate">
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="report-box">
+
+                <span>
+                    Avg Response Time
+                </span>
+
+                <strong id="reportAverageTime">
+                    0 ms
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- REPORT TABLE -->
+
+        <div class="report-results">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h3>
+                        📊 Test Summary
+                    </h3>
+
+                    <p class="description">
+                        Results of the API tests included
+                        in this report.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="report-table-container">
+
+                <table class="report-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>#</th>
+                            <th>Test Case</th>
+                            <th>Method</th>
+                            <th>Endpoint</th>
+                            <th>Expected</th>
+                            <th>Actual</th>
+                            <th>Response Time</th>
+                            <th>Result</th>
+                            <th>Date</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody
+                        id="reportTableBody"
+                    >
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- REPORT ACTIONS -->
+
+        <div class="report-actions">
+
+            <button
+                type="button"
+                onclick="loadReport()"
+                class="primary-btn"
+            >
+                🔄 Refresh Report
+            </button>
+
+
+            <button
+                type="button"
+                onclick="printReport()"
+                class="primary-btn"
+            >
+                🖨️ Print Report
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer>
+
+    <p>
+        Automatic API Testing Platform
+    </p>
+
+    <span>
+        Node.js • Express.js • MySQL
+    </span>
+
+</footer>
+
+
+</main>
+
+
+<!-- =====================================================
+     BASIC UI JAVASCRIPT
+===================================================== -->
+
+<script>
+
+
+/* =====================================================
+   SHOW / HIDE DATA
+===================================================== */
+
+function toggleData(dataId, button) {
+
+    const dataContainer =
+        document.getElementById(dataId);
+
+
+    if (!dataContainer || !button) {
+
+        console.error(
+            "Toggle elements not found:",
+            dataId
+        );
+
+        return;
+    }
+
+
+    const isVisible =
+        dataContainer.classList.contains("show");
+
+
+    if (isVisible) {
+
+        /* ==============================
+           HIDE
+        ============================== */
+
+        dataContainer.classList.remove("show");
+
+        button.innerHTML =
+            "👁️ Show Data";
+
+        button.classList.remove(
+            "hide-data-btn"
+        );
+
+        button.classList.add(
+            "show-data-btn"
+        );
+
+    } else {
+
+        /* ==============================
+           SHOW
+        ============================== */
+
+        dataContainer.classList.add("show");
+
+        button.innerHTML =
+            "🙈 Hide Data";
+
+        button.classList.remove(
+            "show-data-btn"
+        );
+
+        button.classList.add(
+            "hide-data-btn"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   SIDEBAR TOGGLE
+===================================================== */
+
+function toggleSidebar() {
+
+    const sidebar =
+        document.getElementById("sidebar");
+
+
+    const overlay =
+        document.getElementById("sidebarOverlay");
+
+
+    if (!sidebar) {
+        return;
+    }
+
+
+    sidebar.classList.toggle("open");
+
+
+    if (overlay) {
+
+        overlay.classList.toggle(
+            "show"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE NAVIGATION
+===================================================== */
+
+document
+    .querySelectorAll(".sidebar-link")
+    .forEach(function (link) {
+
+
+        link.addEventListener(
+            "click",
+            function () {
+
+
+                document
+                    .querySelectorAll(
+                        ".sidebar-link"
+                    )
+                    .forEach(
+                        function (item) {
+
+                            item.classList.remove(
+                                "active"
+                            );
+
+                        }
+                    );
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                if (
+                    window.innerWidth <= 800
+                ) {
+
+                    const sidebar =
+                        document.getElementById(
+                            "sidebar"
+                        );
+
+
+                    const overlay =
+                        document.getElementById(
+                            "sidebarOverlay"
+                        );
+
+
+                    if (sidebar) {
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+
+                    }
+
+
+                    if (overlay) {
+
+                        overlay.classList.remove(
+                            "show"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    });
+
+
+/* =====================================================
+   ACTIVE SECTION ON SCROLL
+===================================================== */
+
+const sections = [
+
+    "dashboard",
+
+    "apis",
+
+    "testcases-section",
+
+    "results-section",
+
+    "history",
+
+    "reports"
+
+];
+
+
+window.addEventListener(
+    "scroll",
+    function () {
+
+
+        if (
+            window.innerWidth <= 800
+        ) {
+
+            return;
+
+        }
+
+
+        let currentSection =
+            "dashboard";
+
+
+        sections.forEach(
+            function (id) {
+
+
+                const section =
+                    document.getElementById(
+                        id
+                    );
+
+
+                if (!section) {
+                    return;
+                }
+
+
+                const position =
+                    section.getBoundingClientRect();
+
+
+                if (
+                    position.top <= 180 &&
+                    position.bottom >= 180
+                ) {
+
+                    currentSection =
+                        id;
+
+                }
+
+            }
+        );
+
+
+        document
+            .querySelectorAll(
+                ".sidebar-link"
+            )
+            .forEach(
+                function (link) {
+
+
+                    link.classList.remove(
+                        "active"
+                    );
+
+
+                    const href =
+                        link.getAttribute(
+                            "href"
+                        );
+
+
+                    if (
+                        href ===
+                        "#" + currentSection
+                    ) {
+
+                        link.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                }
+            );
+
+    }
+);
+
+</script>
+
+
+<!-- =====================================================
+     PROJECT JAVASCRIPT
+===================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>

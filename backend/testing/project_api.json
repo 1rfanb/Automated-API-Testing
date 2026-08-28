@@ -1,0 +1,941 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Automatic API Testing Platform",
+    "description": "OpenAPI specification for testing the Automatic API Testing Platform itself.",
+    "version": "1.0.0"
+  },
+
+  "servers": [
+    {
+      "url": "http://localhost:5000"
+    }
+  ],
+
+  "tags": [
+    { "name": "System" },
+    { "name": "APIs" },
+    { "name": "Test Cases" },
+    { "name": "Testing" },
+    { "name": "Dashboard" },
+    { "name": "History" },
+    { "name": "Reports" }
+  ],
+
+  "paths": {
+
+    "/api/test": {
+      "get": {
+        "tags": ["System"],
+        "summary": "Check backend status",
+
+        "parameters": [
+          {
+            "name": "testId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            },
+            "description": "Optional test identifier"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Backend is working",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "message": "Backend API is working!",
+                  "testId": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "/api/apis": {
+
+      "get": {
+        "tags": ["APIs"],
+        "summary": "Get all imported APIs",
+
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1,
+              "minimum": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10,
+              "minimum": 1
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "APIs retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "page": 1,
+                  "limit": 10,
+                  "apis": [
+                    {
+                      "id": 1,
+                      "name": "Backend Status API",
+                      "method": "GET",
+                      "endpoint": "/api/test"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+
+
+      "post": {
+        "tags": ["APIs"],
+        "summary": "Add an API manually",
+
+        "parameters": [
+          {
+            "name": "source",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "manual"
+            }
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "method",
+                  "endpoint"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Backend Status API"
+                  },
+                  "method": {
+                    "type": "string",
+                    "enum": [
+                      "GET",
+                      "POST",
+                      "PUT",
+                      "PATCH",
+                      "DELETE"
+                    ],
+                    "example": "GET"
+                  },
+                  "endpoint": {
+                    "type": "string",
+                    "example": "/api/test"
+                  }
+                }
+              },
+
+              "example": {
+                "name": "Backend Status API",
+                "method": "GET",
+                "endpoint": "/api/test"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "API added successfully"
+          },
+          "400": {
+            "description": "Required fields missing"
+          },
+          "409": {
+            "description": "API already exists"
+          }
+        }
+      }
+    },
+
+
+    "/api/apis/{id}/details": {
+      "get": {
+        "tags": ["APIs"],
+        "summary": "Get API details",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the API",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 1
+            }
+          },
+          {
+            "name": "includeTests",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "API details retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "api": {
+                    "id": 1,
+                    "name": "Backend Status API",
+                    "method": "GET",
+                    "endpoint": "/api/test"
+                  },
+                  "includeTests": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "API not found"
+          }
+        }
+      }
+    },
+
+
+    "/api/dashboard-stats": {
+      "get": {
+        "tags": ["Dashboard"],
+        "summary": "Get dashboard statistics",
+
+        "parameters": [
+          {
+            "name": "period",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "today",
+                "week",
+                "month"
+              ],
+              "example": "all"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Dashboard statistics retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "period": "all",
+                  "totalApis": 1,
+                  "totalTestCases": 1,
+                  "passedTests": 1,
+                  "failedTests": 0
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "/api/generate-tests": {
+      "post": {
+        "tags": ["Test Cases"],
+        "summary": "Generate a test case",
+
+        "parameters": [
+          {
+            "name": "apiId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+
+              "schema": {
+                "$ref": "#/components/schemas/TestCaseRequest"
+              },
+
+              "example": {
+                "apiId": 1,
+                "testName": "Verify API details by ID",
+                "expectedStatus": 200,
+
+                "pathParams": {
+                  "id": 1
+                },
+
+                "queryParams": {
+                  "includeTests": true
+                },
+
+                "requestBody": null
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "201": {
+            "description": "Test case generated successfully"
+          },
+          "200": {
+            "description": "Test case already exists"
+          },
+          "400": {
+            "description": "API ID is required"
+          }
+        }
+      }
+    },
+
+
+    "/api/test-cases": {
+      "get": {
+        "tags": ["Test Cases"],
+        "summary": "Get all generated test cases",
+
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Test cases retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "page": 1,
+                  "limit": 10,
+                  "testCases": [
+                    {
+                      "id": 1,
+                      "api_id": 1,
+                      "test_name": "Verify API details by ID",
+                      "expected_status": 200,
+                      "pathParams": {
+                        "id": 1
+                      },
+                      "queryParams": {
+                        "includeTests": true
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+
+    "/api/run-test": {
+      "post": {
+        "tags": ["Testing"],
+        "summary": "Execute an API test",
+
+        "parameters": [
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          }
+        ],
+
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+
+              "schema": {
+                "$ref": "#/components/schemas/RunTestRequest"
+              },
+
+              "example": {
+                "method": "GET",
+
+                "url": "http://localhost:5000/api/apis/{id}/details",
+
+                "expectedStatus": 200,
+
+                "testCaseId": 1,
+
+                "pathParams": {
+                  "id": 1
+                },
+
+                "queryParams": {
+                  "includeTests": true
+                },
+
+                "requestBody": null,
+
+                "headers": {
+                  "Accept": "application/json"
+                }
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "description": "Test executed successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "method": "GET",
+                  "url": "http://localhost:5000/api/apis/1/details?includeTests=true",
+                  "expectedStatus": 200,
+                  "actualStatus": 200,
+                  "responseTime": 120,
+                  "result": "PASS"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid test request"
+          },
+          "502": {
+            "description": "Unable to reach API server"
+          }
+        }
+      }
+    },
+
+
+    "/api/history": {
+      "get": {
+        "tags": ["History"],
+        "summary": "Get test execution history",
+
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 10
+            }
+          },
+          {
+            "name": "result",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "PASS",
+                "FAIL"
+              ],
+              "example": "PASS"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Test history retrieved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "page": 1,
+                  "limit": 10,
+                  "history": [
+                    {
+                      "id": 1,
+                      "test_case_id": 1,
+                      "actual_status": 200,
+                      "result": "PASS",
+                      "response_time": 120
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+
+
+      "delete": {
+        "tags": ["History"],
+        "summary": "Delete all test history",
+
+        "parameters": [
+          {
+            "name": "confirm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "History deleted successfully"
+          }
+        }
+      }
+    },
+
+
+    "/api/history/{id}": {
+      "delete": {
+        "tags": ["History"],
+        "summary": "Delete a specific history record",
+
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "History record ID",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "example": 1
+            }
+          },
+
+          {
+            "name": "confirm",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "boolean",
+              "example": true
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "History record deleted"
+          },
+          "404": {
+            "description": "History record not found"
+          }
+        }
+      }
+    },
+
+
+    "/api/report": {
+      "get": {
+        "tags": ["Reports"],
+        "summary": "Get latest test report",
+
+        "parameters": [
+          {
+            "name": "testCaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "example": 1
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "summary"
+              ],
+              "example": "json"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Latest test report",
+            "content": {
+              "application/json": {
+
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                },
+
+                "example": {
+                  "success": true,
+
+                  "summary": {
+                    "total": 1,
+                    "passed": 1,
+                    "failed": 0,
+                    "passRate": 100,
+                    "averageResponseTime": 120
+                  },
+
+                  "results": [
+                    {
+                      "id": 1,
+                      "testCaseId": 1,
+                      "method": "GET",
+                      "url": "http://localhost:5000/api/apis/1/details?includeTests=true",
+                      "pathParams": {
+                        "id": 1
+                      },
+                      "queryParams": {
+                        "includeTests": true
+                      },
+                      "expectedStatus": 200,
+                      "actualStatus": 200,
+                      "responseTime": 120,
+                      "result": "PASS"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+
+  "components": {
+    "schemas": {
+
+      "TestCaseRequest": {
+        "type": "object",
+
+        "required": [
+          "apiId"
+        ],
+
+        "properties": {
+
+          "apiId": {
+            "type": "integer",
+            "example": 1
+          },
+
+          "testName": {
+            "type": "string",
+            "example": "Verify API details by ID"
+          },
+
+          "expectedStatus": {
+            "type": "integer",
+            "example": 200
+          },
+
+          "pathParams": {
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "id": 1
+            }
+          },
+
+          "queryParams": {
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "includeTests": true
+            }
+          },
+
+          "requestBody": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "example": null
+          }
+        }
+      },
+
+
+      "RunTestRequest": {
+        "type": "object",
+
+        "required": [
+          "method",
+          "url"
+        ],
+
+        "properties": {
+
+          "method": {
+            "type": "string",
+            "enum": [
+              "GET",
+              "POST",
+              "PUT",
+              "PATCH",
+              "DELETE"
+            ],
+            "example": "GET"
+          },
+
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "http://localhost:5000/api/apis/{id}/details"
+          },
+
+          "expectedStatus": {
+            "type": "integer",
+            "example": 200
+          },
+
+          "testCaseId": {
+            "type": "integer",
+            "example": 1
+          },
+
+          "pathParams": {
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "id": 1
+            }
+          },
+
+          "queryParams": {
+            "type": "object",
+            "additionalProperties": true,
+            "example": {
+              "includeTests": true
+            }
+          },
+
+          "requestBody": {
+            "type": "object",
+            "nullable": true,
+            "additionalProperties": true,
+            "example": null
+          },
+
+          "headers": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "Accept": "application/json"
+            }
+          }
+        }
+      },
+
+
+      "Report": {
+        "type": "object",
+
+        "properties": {
+
+          "success": {
+            "type": "boolean",
+            "example": true
+          },
+
+          "summary": {
+            "type": "object",
+
+            "properties": {
+
+              "total": {
+                "type": "integer",
+                "example": 1
+              },
+
+              "passed": {
+                "type": "integer",
+                "example": 1
+              },
+
+              "failed": {
+                "type": "integer",
+                "example": 0
+              },
+
+              "passRate": {
+                "type": "integer",
+                "example": 100
+              },
+
+              "averageResponseTime": {
+                "type": "integer",
+                "example": 120
+              }
+            }
+          },
+
+          "results": {
+            "type": "array",
+
+            "items": {
+              "type": "object",
+
+              "properties": {
+
+                "id": {
+                  "type": "integer",
+                  "example": 1
+                },
+
+                "testCaseId": {
+                  "type": "integer",
+                  "example": 1
+                },
+
+                "method": {
+                  "type": "string",
+                  "example": "GET"
+                },
+
+                "url": {
+                  "type": "string",
+                  "example": "http://localhost:5000/api/apis/1/details"
+                },
+
+                "pathParams": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "example": {
+                    "id": 1
+                  }
+                },
+
+                "queryParams": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "example": {
+                    "includeTests": true
+                  }
+                },
+
+                "expectedStatus": {
+                  "type": "integer",
+                  "example": 200
+                },
+
+                "actualStatus": {
+                  "type": "integer",
+                  "example": 200
+                },
+
+                "responseTime": {
+                  "type": "integer",
+                  "example": 120
+                },
+
+                "result": {
+                  "type": "string",
+                  "enum": [
+                    "PASS",
+                    "FAIL"
+                  ],
+                  "example": "PASS"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

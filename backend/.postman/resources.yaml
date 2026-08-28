@@ -1,0 +1,9 @@
+# Use this workspace to collaborate
+workspace:
+  id: 41bf606b-b68f-4128-93fc-dd38b61d3ae6
+
+localResources:
+  specs:
+    - ../test-api.json
+    - ../uploads/1787126679611-test-api.json
+    - ../uploads/1787126790360-test-api.json
