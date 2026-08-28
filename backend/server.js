@@ -48,11 +48,11 @@ app.use(cors())
 app.use(express.json({ limit: "2mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    express.static(
-        path.join(__dirname, "../frontend")
-    )
-);
+// app.use(
+//     express.static(
+//         path.join(__dirname, "../frontend")
+//     )
+// );
 
 // =====================================================
 // FAVICON
@@ -5092,16 +5092,17 @@ function normaliseStatusForDB(
 // START SERVER
 // =====================================================
 
-app.listen(
-    PORT,
-    () => {
+// app.listen(
+//     PORT,
+//     () => {
 
-        console.log(
-            `🚀 Server running on http://localhost:${PORT}`
-        );
+//         console.log(
+//             `🚀 Server running on http://localhost:${PORT}`
+//         );
 
-        console.log(
-            "🧪 Automatic API Testing Platform backend ready"
-        );
-    }
-);
+//         console.log(
+//             "🧪 Automatic API Testing Platform backend ready"
+//         );
+//     }
+// );
+export default app;
